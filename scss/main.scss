@@ -1,0 +1,61 @@
+body{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+main{
+    display: flex;
+    flex-direction: column;
+
+    margin: 50px;
+
+    .board_row{
+        display: flex;
+        flex-direction: row;
+
+        width: min(400px, 95vw);
+
+        .board_cell{
+            width: calc(100%/7);
+            button{
+                font-size: 150%;
+                background: #fff;
+                border: none;
+                outline: 1px solid #000;
+                width: 100%;
+                aspect-ratio: 1;
+                cursor: pointer;
+                transition: background 100ms ease;
+
+                // remove apple styling
+                --webkit-appearance: none;
+                color: #000;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 0;
+                padding: 0;
+                margin: 0;
+            }
+
+        }
+        .board_cell[data-state='cross']{
+            button{
+                background: hsl(5, 84%, 66%);
+            }
+        }
+        .board_cell[data-state='circle']{
+            button{
+                background: hsl(230, 95%, 63%);
+            }
+        }
+    }
+}
+#interface button{
+    font-size: 20px;
+    border-radius: 2px;
+    background: #efefef;
+    color: #000;
+    border: 1px solid #767676;
+}
