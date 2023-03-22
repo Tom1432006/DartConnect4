@@ -50,6 +50,12 @@ main{
                 background: hsl(230, 95%, 63%);
             }
         }
+        .board_cell[data-state='disabled']{
+            button{
+                opacity: .3;
+                pointer-events: none;
+            }
+        }
     }
 }
 #interface button{

@@ -1,5 +1,5 @@
 $("#new_game_button").click(function(){generateBoard();})
-$("#easy_button").click(function(){changeDifficulty(0);})
-$("#normal_button").click(function(){changeDifficulty(1);})
-$("#hard_button").click(function(){changeDifficulty(2);})
-
+$("#stufe1").click(function(){changeDifficulty(0);})
+$("#stufe2").click(function(){changeDifficulty(1);})
+$("#stufe3").click(function(){changeDifficulty(2);})
+$("#stufe4").click(function(){changeDifficulty(3);})
