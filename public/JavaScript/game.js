@@ -12,6 +12,7 @@ for(var y = 0;y < board_height; y++){
 }
 
 var difficulty = 0;
+var game_won = false;
 
 // define all the difficulties
 const num_s1_start = [9,7,4,6,1,3];
@@ -54,7 +55,9 @@ function generateBoard(){
             if(h < board_height-1){
                 state = "disabled";
             }
-            row += "<div class='board_cell' data-state='"+state+"' id='"+uniqID.toString()+"'><button class='cell_button' onclick='changeState(\""+uniqID.toString()+"\")'>" + cell_number.toString() + "</button></div>";
+
+            number = board_width * h + w;
+            row += "<div class='board_cell' data-state='"+state+"' id='"+uniqID.toString()+"' data-index='"+number.toString()+"'><button class='cell_button' onclick='changeState(\""+uniqID.toString()+"\")'>" + cell_number.toString() + "</button></div>";
         }
 
         row += "</div>";
@@ -62,7 +65,7 @@ function generateBoard(){
     }
     
 
-    $("#game").html(board);
+    $("#game").html("<p id='won_message'>-</p>" + board);
 }
 
 function getCellNumber(row){
@@ -137,17 +140,29 @@ function changeState(id){
     }  
     
     updateDisabledCells();
+    checkWin();
 }
 
 function updateDisabledCells(){
     // loop through the hole board except the last row
-    for(var y = 0;y < board_height-1;y++){
+    for(var y = 0;y < board_height;y++){
         for(var x = 0;x < board_width;x++){
-            var cell_under_id = ids[y+1][x];
             var cell_id = ids[y][x];
+            var cell_state = document.getElementById(cell_id).getAttribute("data-state");
+
+            if(y == board_height-1 && cell_state == "disabled"){
+                $("#"+cell_id).attr("data-state", "open");
+                continue;
+            }
+            try{
+                var cell_under_id = ids[y+1][x];
+            }catch{
+                continue;
+            }
 
             var cell_under_state = document.getElementById(cell_under_id).getAttribute("data-state");
-            var cell_state = document.getElementById(cell_id).getAttribute("data-state");
+
+            // if the last row is not a color open it
 
             // if the cell below is filled in, open the cell
             if((cell_under_state == "cross" || cell_under_state == "circle") && cell_state == "disabled"){
@@ -176,4 +191,84 @@ function findPositionInArray(id, array){
         }
     }
     return [null, null];
+}
+
+function checkWin(){
+    game_won = false;
+    // reset the won message
+    $("#won_message").html("-");
+    $("#won_message").removeClass("cross");
+    $("#won_message").removeClass("circle");
+
+    var check_fields = [1,8,7,6];
+    for(var y = 0; y < board_height; y++){
+        for(var x = 0; x < board_width; x++){
+            var cell_id = ids[y][x];
+            var current_index = board_width * y + x;
+            var current_state = document.getElementById(cell_id).getAttribute("data-state");
+
+            // if the current state of the cell is disabled or open just continue
+            if(current_state == "disabled" || current_state == "open"){
+                continue; // skip
+            }
+
+            // check if all the cells in the direction have the same type as the current one
+            for (const direction of check_fields) {
+                var won = true;
+
+                for(var i = 1; i < 4; i++){
+                    var new_index = current_index + direction * i;
+                    if(new_index >= board_height * board_width){
+                        won = false;
+                        break; // field does not exists
+                    }
+                    
+                    var cell_id = getIdByIndex(new_index);
+                    var cell_state = document.getElementById(cell_id).getAttribute("data-state");
+                    
+                    if(cell_state != current_state){
+                        won = false;
+                    }
+                }
+
+                if(won){
+                    game_won = true;
+                    // if won is still true the player has won
+                    if(current_state == "cross"){
+                        $("#won_message").html("Rot hat gewonnen");
+                        $("#won_message").addClass("cross")
+                    }else{
+                        $("#won_message").html("Blau hat gewonnen");
+                        $("#won_message").addClass("circle")
+                    }
+
+                    removeOpenCells();
+                    return;
+                }
+            }
+        }
+    }
+}
+
+function colorWonCells(){
+
+}
+
+function removeOpenCells(){
+    $(".board_cell").each(function(){
+        if($(this).attr("data-state").toString() == "open"){
+            $(this).attr("data-state", "disabled");
+        }
+    });
+}
+
+function getIdByIndex(index){
+    var id = "";
+    $(".board_cell").each(function(){
+        if($(this).attr("data-index").toString() == index.toString()){
+            id = $(this).attr("id");
+        }
+    });
+
+    return id;
 }
