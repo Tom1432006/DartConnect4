@@ -69,7 +69,9 @@ class Game{
                     if(this.board[i+dir*n] != this.turn){
                         notWon = true;
                     }
-                    if((i+dir*n) % this.width == 0 || (i+dir*n) >= this.boardSize || (i+dir*n) % this.width == this.width-1){
+                    // stop the search if it has reached the edge of the board
+                    // and it it is not the last field to check n != 3
+                    if(((i+dir*n) % this.width == 0 || (i+dir*n) >= this.boardSize || (i+dir*n) % this.width == this.width-1) && n != 3){
                         notWon = true;
                         break;
                     }
@@ -119,6 +121,7 @@ class Game{
         // reset variables
         this.board = [];
         this.board_label = [];
+        this.winboard = [];
         this.last_moves = [];
         this.used_numbers = [];
         this.gameDone = false;
