@@ -1,7 +1,18 @@
+:root{
+    --clr-red: hsl(5, 84%, 56%);
+    --clr-red-dark: hsl(5, 84%, 46%);
+    --clr-blue: hsl(230, 95%, 53%);
+    --clr-blue-dark: hsl(230, 95%, 43%);
+    --clr-won: #FFD700;
+}
 body{
     display: flex;
     align-items: center;
     flex-direction: column;
+
+    background: #030303;
+
+    color: #ffF;
 }
 
 main{
@@ -17,11 +28,11 @@ main{
         font-weight: 500;
         color: #fff;
 
-        &.cross{
-            color: hsl(5, 84%, 66%);
+        &.red{
+            color: var(--clr-red);
         }
-        &.circle{
-            color: hsl(230, 95%, 63%);
+        &.blue{
+            color: var(--clr-blue);
         }
     }
     .board_row{
@@ -31,37 +42,62 @@ main{
         width: min(400px, 95vw);
 
         .board_cell{
+            position: relative;
             width: calc(100%/7);
-            button{
-                font-size: 150%;
-                background: #fff;
-                border: none;
-                outline: 1px solid #000;
-                width: 100%;
-                aspect-ratio: 1;
-                cursor: pointer;
-                transition: background 100ms ease;
+            font-size: 150%;
+            background: #ddd;
+            border: none;
+            outline: 1px solid #000;
+            aspect-ratio: 1;
+            cursor: pointer;
 
-                // remove apple styling
-                --webkit-appearance: none;
-                color: #000;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                border-radius: 0;
-                padding: 0;
-                margin: 0;
+            // remove apple styling
+            --webkit-appearance: none;
+            color: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0;
+            margin: 0;
+
+            &.won{
+                background: var(--clr-won);
             }
 
+            .circle{
+                position: absolute;
+                --distance_from_edge: 5px;
+                width: calc(100% - var(--distance_from_edge));
+                aspect-ratio: 1;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                border-radius: 50%;
+
+                &.gray{
+                    background: #aaa;
+                }
+                &.blue{
+                    background: linear-gradient(140deg, var(--clr-blue-dark) 35%, var(--clr-blue) 100%);
+                }
+                &.red{
+                    background: linear-gradient(140deg, var(--clr-red-dark) 35%, var(--clr-red) 100%);
+                }
+            }
+
+            .text{
+                position: absolute;
+                z-index: 10;
+            }
         }
         .board_cell[data-state='cross']{
             button{
-                background: hsl(5, 84%, 66%);
+                background: var(--clr-red);
             }
         }
         .board_cell[data-state='circle']{
             button{
-                background: hsl(230, 95%, 63%);
+                background: var(--clr-blue);
             }
         }
         .board_cell[data-state='disabled']{
@@ -72,10 +108,66 @@ main{
         }
     }
 }
-#interface button{
-    font-size: 20px;
-    border-radius: 2px;
-    background: #efefef;
-    color: #000;
-    border: 1px solid #767676;
+#interface{
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    .turn{
+        width: 100%;
+        display: flex;
+        justify-content: space-evenly;
+        margin-bottom: 10px;
+        button{
+            height: 50px;
+            aspect-ratio: 1;
+            border-radius: 50%;
+
+            cursor: pointer;
+
+            &.active{
+                border: 5px solid #fff;
+
+                &.won{
+                    border: 5px solid var(--clr-won);
+                }
+            }
+
+            &.red{
+                background: var(--clr-red);
+            }
+            &.blue{
+                background: var(--clr-blue);
+            }
+        }
+    }
+    .controlls{
+        display: flex;
+        justify-content: space-evenly;
+        flex-direction: row;
+        width: 100%;
+    }
+    button, select{
+        font-size: 20px;
+        border-radius: 2px;
+        color: #fff;
+        background: none;
+        border: none;
+
+        option{
+            color: #000;
+        }
+    }
+    #undo{
+        height: 30px;
+        aspect-ratio: 1;
+        background: none;
+        border: none;
+
+        img{
+            height: 100%;
+            filter: invert(100%);
+        }
+    }
 }

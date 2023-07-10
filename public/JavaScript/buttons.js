@@ -1,5 +1,0 @@
-$("#new_game_button").click(function(){generateBoard();})
-$("#stufe1").click(function(){changeDifficulty(0);})
-$("#stufe2").click(function(){changeDifficulty(1);})
-$("#stufe3").click(function(){changeDifficulty(2);})
-$("#stufe4").click(function(){changeDifficulty(3);})

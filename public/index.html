@@ -14,6 +14,9 @@
     <script src="jquery.min.js"></script>
 </head>
 <body>
+    <script src="JavaScript/game.js"></script>
+    <script type="module" src="JavaScript/main.js"></script>
+    <script src="JavaScript/controller.js"></script>
     <header>
         <h1>Darts 4 Gewinnt</h1>
     </header>
@@ -21,14 +24,21 @@
         <h1>Laden...</h1>
     </main>
     <section id="interface">
-        <button id="new_game_button">Neues Spiel</button>
-        <button id="stufe1">Stufe 1</button>
-        <button id="stufe2">Stufe 2</button>
-        <button id="stufe3">Stufe 3</button>
-        <button id="stufe4">Stufe 4</button>
+        <div class="turn">
+            <button class="change_turn red active" data-turn="1"></button>
+            <button class="change_turn blue" data-turn="2"></button>
+        </div>
+        <div class="controlls">
+            <select name="difficulty" id="difficulty">
+                <option value="1">Stufe 1</option>
+                <option value="2">Stufe 2</option>
+                <option value="3">Stufe 3</option>
+                <option value="4">Stufe 4</option>
+            </select>
+            <button id="new_game_button">Neues Spiel</button>
+            <button id="undo"><img src="undo.png"></button>
+        </div>
     </section>
     
-    <script src="JavaScript/game.js"></script>
-    <script src="JavaScript/buttons.js"></script>
 </body>
 </html>
