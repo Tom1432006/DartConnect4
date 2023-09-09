@@ -71,7 +71,11 @@ class Game{
                     }
                     // stop the search if it has reached the edge of the board
                     // and it it is not the last field to check n != 3
-                    if(((i+dir*n) % this.width+1 == 0 || (i+dir*n) >= this.boardSize || (i+dir*n) % this.width == this.width) && n != 3){
+                    if(((i+dir*n) % this.width+1 == 0 || (i+dir*n) >= this.boardSize || ((i+dir*n) % this.width == this.width-1 && dir != this.width && dir != this.width-1)) && n != 3){
+                        notWon = true;
+                        break;
+                    }
+                    if(dir == this.width-1 && (i+dir*n) % this.width == 0 && n != 3){
                         notWon = true;
                         break;
                     }
