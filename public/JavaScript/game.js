@@ -71,7 +71,7 @@ class Game{
                     }
                     // stop the search if it has reached the edge of the board
                     // and it it is not the last field to check n != 3
-                    if(((i+dir*n) % this.width == 0 || (i+dir*n) >= this.boardSize || (i+dir*n) % this.width == this.width-1) && n != 3){
+                    if(((i+dir*n) % this.width+1 == 0 || (i+dir*n) >= this.boardSize || (i+dir*n) % this.width == this.width) && n != 3){
                         notWon = true;
                         break;
                     }
@@ -81,8 +81,17 @@ class Game{
             }
             if(notWon == false){
                 game_won = true;
+
+                var win_color = "#153bf9"; // blue
+                if(this.turn == 1){
+                    win_color = "#da2716"; // red
+                }
+                startConfetti(win_color);
                 break;
+            }else{
+                stopConfetti();
             }
+            
         }
 
         // save the won fields if the game is one
@@ -129,6 +138,7 @@ class Game{
         this.loadDifficulties();
         this.generateBoard();
         this.drawBoard();
+        stopConfetti();
     }
 
     generateBoard(){
